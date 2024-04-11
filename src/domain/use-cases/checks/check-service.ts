@@ -18,11 +18,19 @@ export class CheckService implements CheckServiceUseCase {
       const res = await fetch(url);
       if (!res.ok) throw new Error("Error fetching data");
       this.successFetch();
-      const logEntity = new LogEntity(LogClasification.low, "all be okey");
+      const logEntity = new LogEntity({
+        type: LogClasification.low,
+        message: "all be okey",
+        origin: "check-service.ts",
+      });
 
       this.logRepository.saveLog(logEntity);
     } catch (err) {
-      const logEntity = new LogEntity(LogClasification.high, `${err}`);
+      const logEntity = new LogEntity({
+        type: LogClasification.high,
+        message: `${err}`,
+        origin: "check-service.ts",
+      });
 
       this.logRepository.saveLog(logEntity);
 
